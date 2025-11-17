@@ -32,4 +32,43 @@ if intentos == 0:
     print("="*60)
     exit()
 
+# MENÚ PRINCIPAL - ESTUDIANTE 2
+
+
+def menu_principal(pin):
+    while True:
+        print("\n" + "="*60)
+        print("                 📋 MENÚ PRINCIPAL")
+        print("="*60)
+        print("1. Consultar saldo")
+        print("2. Depositar dinero")
+        print("3. Retirar dinero")
+        print("4. Ver historial de transacciones")
+        print("5. Salir")
+        print("="*60)
+
+        opcion = input(" Selecciona una opción: ").strip()
+
+        if opcion == "1":
+            consultar_saldo(pin)
+
+        elif opcion == "2":
+            depositar(pin)
+
+        elif opcion == "3":
+            retirar(pin)
+
+        elif opcion == "4":
+            mostrar_historial(pin)
+
+        elif opcion == "5":
+            print("\n Gracias por usar el cajero. Hasta luego.")
+            break
+
+        else:
+            print("\n Opción inválida. Intenta nuevamente.")
+
+# Llamada al menú después del login
+menu_principal(pin)
+
     
