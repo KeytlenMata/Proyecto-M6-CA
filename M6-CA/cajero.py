@@ -4,76 +4,72 @@ usuarios = {
     "0000": {"saldo": 900, "historial": []}
 }
 
-print("\n" + "="*60)
-print("                🏦  SISTEMA DE CAJERO AUTOMÁTICO")
-print("="*60)
-print(" Por favor, verifica tu identidad para acceder a tu cuenta.")
-print("="*60)
+#Funcion de login
+def login():
 
-intentos = 3
-pin = ""
-
-while intentos > 0:
-    pin = input("\n🔐 Ingresa tu PIN (4 dígitos): ").strip()
-    if pin in usuarios:
-        print("\n✅ Acceso concedido. ¡Bienvenido!")
-        print("-"*60)
-        break
-    else:
-        intentos -= 1
-        if intentos > 0:
-            print(f"❌ PIN incorrecto. Te quedan {intentos} intento(s).")
-        else:
-            print("❌ PIN incorrecto.")
-
-if intentos == 0:
-    print("\n⚠️  Demasiados intentos fallidos.")
-    print("🔒 El sistema se ha bloqueado por seguridad.")
+    print("\n" + "="*60)
+    print("                🏦  SISTEMA DE CAJERO AUTOMÁTICO")
     print("="*60)
-    exit()
+    print(" Por favor, verifica tu identidad para acceder a tu cuenta.")
+    print("="*60)
 
-# MENÚ PRINCIPAL - ESTUDIANTE 2
+    intentos = 3
+    pin = ""
 
-def menu_principal(pin):
-    saldo = 0
-    while True:
-        print("\n" + "="*60)
-        print("                 📋 MENÚ PRINCIPAL")
-        print("="*60)
-        print("1. Consultar saldo")
-        print("2. Depositar dinero")
-        print("3. Retirar dinero")
-        print("4. Ver historial de transacciones")
-        print("5. Salir")
-        print("="*60)
-
-        opcion = input(" Selecciona una opción: ").strip()
-
-        if opcion == "1":
-            print("Su saldo es ", saldo)
-
-        elif opcion == "2":
-            try:
-                deposito = int(input("Cuanto desea depositar? "))
-            except ValueError:
-                print("Solo ingrese numeros validos, por favor.")
-            saldo += deposito
-
-
-        elif opcion == "3":
-            retirar(pin)
-
-        elif opcion == "4":
-            mostrar_historial(pin)
-
-        elif opcion == "5":
-            print("\n Gracias por usar el cajero. Hasta luego.")
-            break
-
+    while intentos > 0:
+        pin = input("\n🔐 Ingresa tu PIN (4 dígitos): ").strip()
+        if pin in usuarios:
+            print("\n✅ Acceso concedido. ¡Bienvenido!")
+            print("-"*60)
+            return pin
         else:
-            print("\n Opción inválida. Intenta nuevamente.")
+            intentos -= 1
+            if intentos > 0:
+                print(f"❌ PIN incorrecto. Te quedan {intentos} intento(s).")
+            else:
+                print("❌ PIN incorrecto.")
 
-#Parte 4 : Operacion de retiro
+    if intentos == 0:
+        print("\n⚠️  Demasiados intentos fallidos.")
+        print("🔒 El sistema se ha bloqueado por seguridad.")
+        print("="*60)
+        exit()
+
+#Operacion de deposito
+
+def deposito(pin):
+    print("\n" + "="*60)
+    print("                💰 DEPÓSITO")
+    print("="*60)
+
+    try:
+        monto = float(input("Ingrese el monto a depositar: ").strip())
+
+        if monto <= 0:
+            print("⚠️  El monto debe ser mayor que cero.")
+            return
+
+    except ValueError:
+        print("⚠️  Entrada inválida. Debe ingresar un número.")
+        return
+
+    saldo_actual = usuarios[pin]["saldo"]
+
+    usuarios[pin]["saldo"] = saldo_actual + monto
+
+    usuarios[pin]["historial"].append({
+        "tipo": "Depósito",
+        "monto": monto,
+        "saldo_restante": usuarios[pin]["saldo"]
+    })
+
+    print(f"\n✅ Depósito exitoso. Ha depositado ${monto}.")
+    print(f"💳 Nuevo saldo: ${usuarios[pin]['saldo']}")
+    print("="*60)
+
+    input("Presione ENTER para continuar...")
+
+#Operacion de retiro
 
 def retirar(pin):
     print("\n" + "="*60)
@@ -115,10 +111,33 @@ def retirar(pin):
     print(f"💳 Nuevo saldo: ${usuarios[pin]['saldo']}")
     print("="*60)
 
+    input("Presione ENTER para continuar...")
 
 
-# Llamada al menú después del login
-menu_principal(pin)
+#Operación de historial 
+
+def mostrar_historial(pin):
+    print("\n" + "="*60)
+    print("           📑 HISTORIAL DE TRANSACCIONES")
+    print("="*60)
+
+    historial = usuarios[pin]["historial"]
+
+    if not historial:
+        print("📭 No hay transacciones registradas aún.")
+        print("="*60)
+        return
+    
+    for i, mov in enumerate(historial, start=1):
+        tipo = mov.get("tipo", "N/A")
+        monto = mov.get("monto", "N/A")
+        saldo_restante = mov.get("saldo_restante", "N/A")
+
+        print(f"{i}. Tipo: {tipo} | Monto: ${monto} | Saldo restante: ${saldo_restante}")
+
+        print("="*60)
+    
+    input("Presione ENTER para continuar...")
 
 
 
