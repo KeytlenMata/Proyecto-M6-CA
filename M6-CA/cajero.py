@@ -36,6 +36,7 @@ if intentos == 0:
 
 
 def menu_principal(pin):
+    saldo = 0
     while True:
         print("\n" + "="*60)
         print("                 📋 MENÚ PRINCIPAL")
@@ -50,10 +51,15 @@ def menu_principal(pin):
         opcion = input(" Selecciona una opción: ").strip()
 
         if opcion == "1":
-            consultar_saldo(pin)
+            print("Su saldo es ", saldo)
 
         elif opcion == "2":
-            depositar(pin)
+            try:
+                deposito = int(input("Cuanto desea depositar? "))
+            except ValueError:
+                print("Solo ingrese numeros validos, por favor.")
+            saldo += deposito
+
 
         elif opcion == "3":
             retirar(pin)
@@ -68,7 +74,9 @@ def menu_principal(pin):
         else:
             print("\n Opción inválida. Intenta nuevamente.")
 
+
 # Llamada al menú después del login
 menu_principal(pin)
+
 
     
