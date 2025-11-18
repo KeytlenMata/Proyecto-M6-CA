@@ -34,7 +34,6 @@ if intentos == 0:
 
 # MENÚ PRINCIPAL - ESTUDIANTE 2
 
-
 def menu_principal(pin):
     saldo = 0
     while True:
@@ -74,9 +73,54 @@ def menu_principal(pin):
         else:
             print("\n Opción inválida. Intenta nuevamente.")
 
+#Parte 4 : Operacion de retiro
+
+def retirar(pin):
+    print("\n" + "="*60)
+    print("                💸 OPERACIÓN DE RETIRO")
+    print("="*60)
+
+    # Verificar el saldo actual del usuario
+    saldo_actual = usuarios[pin]["saldo"]
+    print(f"💰 Saldo disponible: ${saldo_actual}")
+
+    try:
+        monto = float(input("Ingrese el monto que desea retirar: ").strip())
+
+        # Validación de monto positivo
+        if monto <= 0:
+            print("⚠️  El monto debe ser mayor que cero.")
+            return
+        
+    except ValueError:
+        print("⚠️  Entrada inválida. Debe ingresar un número.")
+        return
+
+    # Verificación de saldo suficiente
+    if monto > saldo_actual:
+        print("❌ Fondos insuficientes. No se puede realizar el retiro.")
+        return
+
+    # Procesar el retiro
+    usuarios[pin]["saldo"] -= monto
+
+    # Registrar en el historial
+    usuarios[pin]["historial"].append({
+        "tipo": "Retiro",
+        "monto": monto,
+        "saldo_restante": usuarios[pin]["saldo"]
+    })
+
+    print(f"\n✅ Retiro exitoso. Ha retirado ${monto}.")
+    print(f"💳 Nuevo saldo: ${usuarios[pin]['saldo']}")
+    print("="*60)
+
+
 
 # Llamada al menú después del login
 menu_principal(pin)
+
+
 
 
     
