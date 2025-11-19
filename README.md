@@ -37,5 +37,5 @@ Este proyecto fue desarrollado por 5 integrantes del Grupo A como parte de la ac
 Para probar el cajero automático, clona el repositorio y ejecuta:
 
 ```bash
-python cajero.py
+python main.py
 ```
